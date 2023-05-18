@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 export const EditTodoForm = ({ editTodo, task }) => {
   const [value, setValue] = useState(task.task);
+  const [initialValue, setInitialValue] = useState(task.task);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (evt) => {
@@ -21,6 +22,14 @@ export const EditTodoForm = ({ editTodo, task }) => {
     }
   };
 
+  const handleCancel = () => {
+
+    
+    setValue(initialValue);
+    setErrorMessage("");
+
+  };
+
   return (
     <form className="TodoForm" onSubmit={handleSubmit}>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -32,8 +41,11 @@ export const EditTodoForm = ({ editTodo, task }) => {
         onChange={(evt) => setValue(evt.target.value)}
       />
       <button type="submit" className="todo-btn">
-        Update Task
+        Update
       </button>
+      {/* <button type="button" className="todo-btn" onClick={handleCancel} >
+        prevue 
+      </button> */}
     </form>
   );
 };
