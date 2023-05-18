@@ -1,28 +1,39 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
-export const EditTodoForm=({editTodo,task})=>{
-  
-    
-    const [value , setValue] = useState(task.task)
-    
-   const handleSubmit = evt =>{
-       
+export const EditTodoForm = ({ editTodo, task }) => {
+  const [value, setValue] = useState(task.task);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-  
-      editTodo(value,task.id);
 
-      setValue("")
+    const trimmedValue = value.trim();
+    if (trimmedValue !== "") {
+      editTodo(value, task.id);
+      setValue("");
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Please enter a task.");
 
-   }
-    return(
-         
-        <form className="TodoForm" onSubmit={handleSubmit}>
-            
-           <input type="text" className="todo-input" placeholder="Update Task ?" value={value}
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+    }
+  };
 
-           onChange={(evt)=> setValue(evt.target.value)} />
-
-           <button  type="submit" className="todo-btn">Update Task</button>
-        </form>
-    )
-}
+  return (
+    <form className="TodoForm" onSubmit={handleSubmit}>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <input
+        type="text"
+        className="todo-input"
+        placeholder="Update Task"
+        value={value}
+        onChange={(evt) => setValue(evt.target.value)}
+      />
+      <button type="submit" className="todo-btn">
+        Update Task
+      </button>
+    </form>
+  );
+};

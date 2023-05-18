@@ -75,3 +75,7 @@ h1 {
 .fa-trash {
   margin-left: 0.75rem;
 }
+.error-message{
+
+  color: red;
+}

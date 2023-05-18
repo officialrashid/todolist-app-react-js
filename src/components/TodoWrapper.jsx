@@ -5,22 +5,33 @@ import { Todo } from "./Todo";
 import { EditTodoForm } from "./EditTodoForm";
 
 export const TodoWrapper = () => {
-  const [todos, setTodos] = useState([]);
+    
+  const [todos, setTodos] = useState(()=>{
 
-  const addTodo = (todo) => {
-    setTodos([
-      ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false },
-    ]);
+    const storedTodos = localStorage.getItem('todos');
+
+    return storedTodos ? JSON.parse(storedTodos) : [];
+
+  });
+  useEffect(() => {
+
+    localStorage.setItem('todos',JSON.stringify(todos));
+  
+    }, [todos]);
+
+    const addTodo = (todo) => {
+        setTodos([
+          ...todos,
+          { id: uuidv4(), task: todo, completed: false, isEditing: false },
+        ]);
   };
+  
   const toggleComplete = id => {
     setTodos(
       todos.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } :todo))
   };
-//   useEffect(() => {
-//     console.log(todos); // Log the updated todos array
-//   }, [todos]); // Run this effect whenever todos array changes
+
 const deleteTodo = id =>{
 
     setTodos(todos.filter(todo => todo.id !== id))
