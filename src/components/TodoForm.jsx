@@ -1,31 +1,39 @@
 import React,{useState} from "react";
 
-export const TodoForm=({addTodo})=>{
+export const TodoForm=({addTodo,todos})=>{
   
+  console.log(todos,"ooooooooooooooooooooooooooooooooo");
     
     const [value , setValue] = useState("")
     const [errorMessage, setErrorMessage] = useState("");
     
-   const handleSubmit = evt =>{
-       
-    evt.preventDefault();
-      
-    const trimmedValues = value.trim()
-    if(trimmedValues !== ''){
-
-        addTodo(value);
-        setValue("")
-        setErrorMessage("");
-    } else {
-      setErrorMessage("Please enter a task.");
-
-      setTimeout(()=>{
-
-        setErrorMessage("");
-      },3000)
-    }
+    const handleSubmit = (evt) => {
+      evt.preventDefault();
     
-   }
+      const trimmedValue = value.trim();
+    
+      if (trimmedValue === "") {
+        setErrorMessage("Please enter a task.");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+      }
+    
+      if (todos.some((todo) => todo.task === trimmedValue)) {
+        setErrorMessage("Todo already exists.");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+      }
+    
+      if (trimmedValue !== "" && !todos.some((todo) => todo.task === trimmedValue)) {
+        addTodo(trimmedValue);
+        setValue("");
+        setErrorMessage("");
+      }
+    };
+    
+    
     return(
          
         <form className="TodoForm" onSubmit={handleSubmit}>

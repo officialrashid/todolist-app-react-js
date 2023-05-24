@@ -3,6 +3,7 @@ import { TodoForm } from "./TodoForm";
 import { v4 as uuidv4 } from "uuid";
 import { Todo } from "./Todo";
 import { EditTodoForm } from "./EditTodoForm";
+import swal from 'sweetalert';
 
 export const TodoWrapper = () => {
     
@@ -32,10 +33,24 @@ export const TodoWrapper = () => {
         todo.id === id ? { ...todo, completed: !todo.completed } :todo))
   };
 
-const deleteTodo = id =>{
-
-    setTodos(todos.filter(todo => todo.id !== id))
-}
+  const deleteTodo = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this todo!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((confirmed) => {
+      if (confirmed) {
+        setTodos(todos.filter((todo) => todo.id !== id));
+        swal("Todo deleted successfully!", {
+          icon: "success",
+        });
+      } else {
+        swal("Todo deletion canceled!");
+      }
+    });
+  };
 const editTodo = id =>{
 
     setTodos(todos.map(todo => todo.id === id ? {...todo, isEditing : !todo.isEditing} : todo))
@@ -49,7 +64,7 @@ const editTask = (task,id) =>{
   return (
     <div className="TodoWrapper">
         <h1 className="header">Todoey</h1>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm addTodo={addTodo}  todos={todos}/>
 
       {todos.map((todo, index) => (
         
@@ -64,3 +79,6 @@ const editTask = (task,id) =>{
     </div>
   );
 };
+<script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</script>
