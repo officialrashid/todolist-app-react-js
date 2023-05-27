@@ -43,12 +43,8 @@ export const TodoWrapper = () => {
     }).then((confirmed) => {
       if (confirmed) {
         setTodos(todos.filter((todo) => todo.id !== id));
-        swal("Todo deleted successfully!", {
-          icon: "success",
-        });
-      } else {
-        swal("Todo deletion canceled!");
-      }
+      
+      } 
     });
   };
 const editTodo = id =>{
@@ -66,7 +62,7 @@ const editTask = (task,id) =>{
         <h1 className="header">Todoey</h1>
       <TodoForm addTodo={addTodo}  todos={todos}/>
 
-      {todos.map((todo, index) => (
+      {todos.slice(0).reverse().map((todo, index) => (
         
          todo.isEditing ? (
             <EditTodoForm editTodo={editTask} task={todo}/>
