@@ -23,11 +23,8 @@ export const EditTodoForm = ({ editTodo, task }) => {
   };
 
   const handleCancel = () => {
-
-    
     setValue(initialValue);
     setErrorMessage("");
-
   };
 
   return (
